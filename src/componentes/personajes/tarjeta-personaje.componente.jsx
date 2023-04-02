@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { addFavouriteCharacter, removeFavouriteCharacter } from '../../redux/favouriteCharactersSlice';
 import { useAppDispatch } from '../../redux/hooks';
 import BotonFavorito from '../botones/boton-favorito.componente';
@@ -27,7 +28,7 @@ const TarjetaPersonaje = ({character, isFavouriteCharacter}) => {
     }
 
     return <div className="tarjeta-personaje">
-        <img src={character.image} alt={character.name}/>
+        <Link to={`/detalle/${character.id}`}><img src={character.image} alt={character.name}/></Link>
         <div className="tarjeta-personaje-body">
             <span>{character.name}</span>
             <BotonFavorito esFavorito={isFavourite} onClick={_ => updateFavouriteCharacter()} />

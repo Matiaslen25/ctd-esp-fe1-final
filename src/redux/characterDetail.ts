@@ -24,31 +24,19 @@ interface Character {
     created: string
 }
 
-interface CharacterDataInfo {
-    count: number
-    pages: number
-    next?: string
-    prev?: string
-}
-
-interface CharacterData {
-    results: Character[]
-    info: CharacterDataInfo
-}
-
 interface initialType {
-    charactersData: CharacterData
+    characterDetail: Character
     loading: boolean
 }
 
-export const getCharactersPage = createAsyncThunk(
-    'characters/charactersData',
-    async (url: string) => {
+export const getCharacterById = createAsyncThunk(
+    'characterDetail',
+    async (id: number) => {
         try {
-            const res = await fetch(url)
+            const res = await fetch(`https://rickandmortyapi.com/api/character/${id}`)
             const parseRes = await res.json()
             if (!res.ok) {
-                throw new Error(`Characters API failed with the following status: {${parseRes.error}}`)
+                throw new Error(`Character detail API failed with the following status: {${parseRes.error}}`)
             }
             return parseRes
         } catch (e) {
@@ -58,40 +46,46 @@ export const getCharactersPage = createAsyncThunk(
 )
 
 const initialState: initialType = {
-    charactersData: {
-        results: [],
-        info: {
-            count: 0,
-            pages: 0
-        }
+    characterDetail: {
+        id: 0,
+        status: '',
+        species: '',
+        type: '',
+        gender: '',
+        origin: {
+            name: '',
+            url: ''
+        },
+        location:  {
+            name: '',
+            url: ''
+        },
+        image: '',
+        episode: [],
+        url: '',
+        created: ''
     },
     loading: true
 }
 
 const charactersSlice = createSlice({
-    name: 'characters',
+    name: 'characterDetail',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(getCharactersPage.pending, (state) => {
+            .addCase(getCharacterById.pending, (state) => {
                 state.loading = true
             })
-            .addCase(getCharactersPage.fulfilled, (state, action) => {
+            .addCase(getCharacterById.fulfilled, (state, action) => {
                 state.loading = false
                 if (!action.payload.error) {
-                    state.charactersData = action.payload
+                    state.characterDetail = action.payload
                 } else {
-                    state.charactersData = {
-                        results: [],
-                        info: {
-                            count: 0,
-                            pages: 0
-                        }
-                    }
+                    state.characterDetail = initialState.characterDetail
                 }
             })
-            .addCase(getCharactersPage.rejected, (state) => {
+            .addCase(getCharacterById.rejected, (state) => {
                 state.loading = false
             })
     }

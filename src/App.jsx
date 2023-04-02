@@ -13,7 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<PaginaInicio />} />
         <Route path="favoritos" element={<PaginaFavoritos />} />
-        <Route path="detalle" element={<PaginaDetalle />} />
+        <Route path="detalle/:detalleId" element={<PaginaDetalle />} />
       </Routes>
     </div>
   );
