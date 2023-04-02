@@ -15,7 +15,7 @@ const GrillaPersonajes = ({ charactersPageData }) => {
     return <div className="grilla-personajes">
        {
         charactersPageData.loading ? 'Cargando información de personajes...' :
-        !charactersPageData.charactersData.results.length ? 'Ocurrió un error al obtener los personajes' :
+        !charactersPageData.charactersData.results.length ? 'Ocurrió un error al obtener los personajes, por favor comprobá los parámetros e intentalo nuevamente' :
         charactersPageData.charactersData.results.map(character => <TarjetaPersonaje key={character.id} character={character}/>)
        }
     </div>

@@ -8,10 +8,10 @@ import './paginacion.css';
  * 
  * @returns un JSX element 
  */
-const Paginacion = ({ page, setPage, nextPageEnabled, previousPageEnabled }) => {
+const Paginacion = ({ setPageUrl, nextPageUrl, previousPageUrl }) => {
     return <div className="paginacion">
-        <button style={{ cursor: !previousPageEnabled && 'not-allowed' }} disabled={!previousPageEnabled} className={"primary"} onClick={() => setPage(page - 1)}>Anterior</button>
-        <button style={{ cursor: !nextPageEnabled && 'not-allowed' }} disabled={!nextPageEnabled} className={"primary"} onClick={() => setPage(page + 1)}>Siguiente</button>
+        <button style={{ cursor: !previousPageUrl && 'not-allowed' }} disabled={!previousPageUrl} className={"primary"} onClick={() => setPageUrl(previousPageUrl)}>Anterior</button>
+        <button style={{ cursor: !nextPageUrl && 'not-allowed' }} disabled={!nextPageUrl} className={"primary"} onClick={() => setPageUrl(nextPageUrl)}>Siguiente</button>
     </div>
 }
 

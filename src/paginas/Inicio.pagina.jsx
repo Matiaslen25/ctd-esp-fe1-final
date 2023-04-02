@@ -14,24 +14,25 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks';
  * @returns la pagina de inicio
  */
 const PaginaInicio = () => {
-    const [page, setPage] = useState(1)
-    
     const dispatch = useAppDispatch()
+
+    const [pageUrl, setPageUrl] = useState('')
     const charactersPageData = useAppSelector(state => state.characters)
     useEffect(() => {
-        dispatch(getCharactersPage(page))
-    }, [page])
+        dispatch(getCharactersPage(pageUrl || 'https://rickandmortyapi.com/api/character?page=1'))
+    }, [pageUrl])
 
-    return <div className="container">
+    return <form className="container" onSubmit={event => event.preventDefault()}>
         <div className="actions">
             <h3>Catálogo de Personajes</h3>
-            <button className="danger">Test Button</button>
+            {/* <button className="danger" onClick={_ => setPageUrl('')}>Limpiar filtros</button> */}
+            <button className="danger" type="reset" onClick={_ => setPageUrl('')}>Limpiar filtros</button>
         </div>
-        <Filtros />
-        <Paginacion page={page} setPage={setPage} nextPageEnabled={!charactersPageData.loading && charactersPageData.charactersData.info.next} previousPageEnabled={!charactersPageData.loading && charactersPageData.charactersData.info.prev} />
+        <Filtros setPageUrl={setPageUrl} />
+        <Paginacion page={pageUrl} setPageUrl={setPageUrl} nextPageUrl={!charactersPageData.loading && charactersPageData.charactersData.info.next} previousPageUrl={!charactersPageData.loading && charactersPageData.charactersData.info.prev} />
         <GrillaPersonajes charactersPageData={charactersPageData}/>
-        <Paginacion page={page} setPage={setPage} nextPageEnabled={!charactersPageData.loading && charactersPageData.charactersData.info.next} previousPageEnabled={!charactersPageData.loading && charactersPageData.charactersData.info.prev} />
-    </div>
+        <Paginacion pageUrl={pageUrl} setPageUrl={setPageUrl} nextPageUrl={!charactersPageData.loading && charactersPageData.charactersData.info.next} previousPageUrl={!charactersPageData.loading && charactersPageData.charactersData.info.prev} />
+    </form>
 }
 
 export default PaginaInicio

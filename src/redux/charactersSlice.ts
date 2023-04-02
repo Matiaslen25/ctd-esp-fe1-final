@@ -42,10 +42,10 @@ interface initialType {
 }
 
 export const getCharactersPage = createAsyncThunk(
-    'characters/charactersList',
-    async (page: number) => {
+    'characters/charactersData',
+    async (url: string) => {
         try {
-            const res = await fetch(`https://rickandmortyapi.com/api/character?page=${page}`)
+            const res = await fetch(url)
             const parseRes = await res.json()
             if (!res.ok) {
                 throw new Error(`Characters API failed with the following status: {${parseRes.error}}`)
@@ -81,6 +81,14 @@ const charactersSlice = createSlice({
                 state.loading = false
                 if (!action.payload.error) {
                     state.charactersData = action.payload
+                } else {
+                    state.charactersData = {
+                        results: [],
+                        info: {
+                            count: 0,
+                            pages: 0
+                        }
+                    }
                 }
             })
             .addCase(getCharactersPage.rejected, (state) => {
