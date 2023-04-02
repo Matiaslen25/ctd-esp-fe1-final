@@ -29,10 +29,7 @@ const PaginaDetalle = () => {
     }, [])
 
     const favouriteCharacters = useAppSelector(state => state.favouriteCharacters)
-    console.log("favouriteCharacters", favouriteCharacters)
     const [isFavouriteCharacter, setIsFavouriteCharacter] = useState(!!favouriteCharacters.find(char => char.id.toString() === detalleId))
-    console.log(favouriteCharacters.find(char => char.id === detalleId))
-    console.log("isFavouriteCharacter", isFavouriteCharacter)
 
     const updateFavouriteCharacter = _ => {
         if (isFavouriteCharacter) {
