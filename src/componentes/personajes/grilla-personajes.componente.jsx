@@ -1,5 +1,6 @@
+import { useEffect } from 'react';
+import { useAppSelector } from '../../redux/hooks';
 import './grilla-personajes.css';
-import { useEffect, useState } from 'react'
 import TarjetaPersonaje from './tarjeta-personaje.componente';
 
 
@@ -12,11 +13,16 @@ import TarjetaPersonaje from './tarjeta-personaje.componente';
  * @returns un JSX element 
  */
 const GrillaPersonajes = ({ charactersPageData }) => {
+    const favouriteCharacters = useAppSelector(state => state.favouriteCharacters)
+    
     return <div className="grilla-personajes">
        {
         charactersPageData.loading ? 'Cargando información de personajes...' :
         !charactersPageData.charactersData.results.length ? 'Ocurrió un error al obtener los personajes, por favor comprobá los parámetros e intentalo nuevamente' :
-        charactersPageData.charactersData.results.map(character => <TarjetaPersonaje key={character.id} character={character}/>)
+        charactersPageData.charactersData.results.map(character => {
+            const isFavouriteCharacter = favouriteCharacters.find(char => char.id === character.id)
+            return <TarjetaPersonaje key={character.id} character={character} isFavouriteCharacter={isFavouriteCharacter}/>
+        })
        }
     </div>
 }
