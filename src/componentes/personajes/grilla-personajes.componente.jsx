@@ -12,11 +12,20 @@ import TarjetaPersonaje from './tarjeta-personaje.componente';
  * 
  * @returns un JSX element 
  */
-const GrillaPersonajes = ({ charactersPageData }) => {
+
+const NoFavouriteCharacters = _ => {
+    return <div>Todavía no tenés personajes favoritos</div>
+}
+
+const GrillaPersonajes = ({ charactersPageData, userFavouriteCharacters }) => {
     const favouriteCharacters = useAppSelector(state => state.favouriteCharacters)
     
     return <div className="grilla-personajes">
        {
+        userFavouriteCharacters ? !userFavouriteCharacters.length ? <NoFavouriteCharacters /> : userFavouriteCharacters.map(character => {
+            const isFavouriteCharacter = favouriteCharacters.find(char => char.id === character.id)
+            return <TarjetaPersonaje key={character.id} character={character} isFavouriteCharacter={isFavouriteCharacter}/>
+        }) :
         charactersPageData.loading ? 'Cargando información de personajes...' :
         !charactersPageData.charactersData.results.length ? 'Ocurrió un error al obtener los personajes, por favor comprobá los parámetros e intentalo nuevamente' :
         charactersPageData.charactersData.results.map(character => {
