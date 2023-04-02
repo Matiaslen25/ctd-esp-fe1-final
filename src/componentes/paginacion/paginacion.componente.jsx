@@ -11,7 +11,7 @@ import './paginacion.css';
 const Paginacion = ({ page, setPage, nextPageEnabled, previousPageEnabled }) => {
     return <div className="paginacion">
         <button style={{ cursor: !previousPageEnabled && 'not-allowed' }} disabled={!previousPageEnabled} className={"primary"} onClick={() => setPage(page - 1)}>Anterior</button>
-        <button style={{ cursor: !previousPageEnabled && 'not-allowed' }} disabled={!nextPageEnabled} className={"primary"} onClick={() => setPage(page + 1)}>Siguiente</button>
+        <button style={{ cursor: !nextPageEnabled && 'not-allowed' }} disabled={!nextPageEnabled} className={"primary"} onClick={() => setPage(page + 1)}>Siguiente</button>
     </div>
 }
 
