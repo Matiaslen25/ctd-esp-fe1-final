@@ -12,6 +12,7 @@ interface Location {
 
 interface Character {
     id: number
+    name: string
     status: string
     species: string
     type: string
@@ -24,9 +25,36 @@ interface Character {
     created: string
 }
 
+interface Episode {
+    id: number
+    name: string
+    air_date: string
+    episode: string
+    characters: string[]
+    url: string
+    created: string
+}
+
 interface initialType {
     characterDetail: Character
     loading: boolean
+    episodesDetail: Episode[]
+}
+
+const getCharactersEpisodes = async (episodesUrls: string[]) => {
+    try {
+        const episodesNumbers = episodesUrls.map(episodeUrl => episodeUrl.replace('https://rickandmortyapi.com/api/episode/', '')).join(',')
+        const res = await fetch(`https://rickandmortyapi.com/api/episode/${episodesNumbers}`)
+        const parseRes = await res.json()
+        if (!res.ok) {
+            throw new Error(`Character's episodes detail API failed with the following status: {${parseRes.error}}`)
+        } else {
+            return episodesUrls.length === 1 ? [parseRes] : parseRes
+        }
+    } catch (error) {
+        console.log(error)
+        return []
+    }
 }
 
 export const getCharacterById = createAsyncThunk(
@@ -37,8 +65,13 @@ export const getCharacterById = createAsyncThunk(
             const parseRes = await res.json()
             if (!res.ok) {
                 throw new Error(`Character detail API failed with the following status: {${parseRes.error}}`)
+            } else {
+                const episodesDetail = await getCharactersEpisodes(parseRes.episode)
+                return {
+                    characterDetail: parseRes,
+                    episodesDetail
+                }
             }
-            return parseRes
         } catch (e) {
             return { error: e }
         }
@@ -47,6 +80,7 @@ export const getCharacterById = createAsyncThunk(
 
 const initialState: initialType = {
     characterDetail: {
+        name: '',
         id: 0,
         status: '',
         species: '',
@@ -65,7 +99,8 @@ const initialState: initialType = {
         url: '',
         created: ''
     },
-    loading: true
+    loading: true,
+    episodesDetail: []
 }
 
 const charactersSlice = createSlice({
@@ -80,9 +115,11 @@ const charactersSlice = createSlice({
             .addCase(getCharacterById.fulfilled, (state, action) => {
                 state.loading = false
                 if (!action.payload.error) {
-                    state.characterDetail = action.payload
+                    state.characterDetail = action.payload.characterDetail
+                    state.episodesDetail = action.payload.episodesDetail
                 } else {
                     state.characterDetail = initialState.characterDetail
+                    state.episodesDetail = initialState.episodesDetail
                 }
             })
             .addCase(getCharacterById.rejected, (state) => {

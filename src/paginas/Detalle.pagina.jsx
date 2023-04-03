@@ -3,7 +3,7 @@ import BotonFavorito from "../componentes/botones/boton-favorito.componente";
 import TarjetaEpisodio from "../componentes/episodios/tarjeta-episodio.componente";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { getCharacterById } from "../redux/characterDetail";
+import { getCharacterById } from "../redux/characterDetailSlice";
 import { useEffect, useState } from "react";
 import { addFavouriteCharacter, removeFavouriteCharacter } from "../redux/favouriteCharactersSlice";
 
@@ -27,7 +27,7 @@ const PaginaDetalle = () => {
     useEffect(() => {
         dispatch(getCharacterById(detalleId))
     }, [])
-
+    
     const favouriteCharacters = useAppSelector(state => state.favouriteCharacters)
     const [isFavouriteCharacter, setIsFavouriteCharacter] = useState(!!favouriteCharacters.find(char => char.id.toString() === detalleId))
 
@@ -39,7 +39,7 @@ const PaginaDetalle = () => {
         }
         setIsFavouriteCharacter(!isFavouriteCharacter)
     }
-
+    
     return characterDetail.loading ? 'Cargando información...' : <div className="container">
         <h3>{characterDetail.characterDetail.name}</h3>
         <div className={"detalle"}>
@@ -57,7 +57,8 @@ const PaginaDetalle = () => {
         <h4>Lista de episodios donde apareció el personaje</h4>
         <div className={"episodios-grilla"}>
             {
-                characterDetail.characterDetail.episode.map(ep => <TarjetaEpisodio episode={ep}/>)
+                characterDetail.loading ? 'Cargando episodios...' : (!characterDetail.episodesDetail.length >= 1) ? 'Ocurrió un error al obtener los episodios' :
+                characterDetail.episodesDetail.map(ep => <TarjetaEpisodio key={ep.id} episode={ep}/>)
             }
         </div>
     </div>

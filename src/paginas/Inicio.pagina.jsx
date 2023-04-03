@@ -22,10 +22,11 @@ const PaginaInicio = () => {
         dispatch(getCharactersPage(pageUrl || 'https://rickandmortyapi.com/api/character?page=1'))
     }, [pageUrl])
 
+    const [seeCharacterDetail, setSeeCharacterDetail] = useState(false)
+
     return <form className="container" onSubmit={event => event.preventDefault()}>
         <div className="actions">
             <h3>Catálogo de Personajes</h3>
-            {/* <button className="danger" onClick={_ => setPageUrl('')}>Limpiar filtros</button> */}
             <button className="danger" type="reset" onClick={_ => setPageUrl('')}>Limpiar filtros</button>
         </div>
         <Filtros setPageUrl={setPageUrl} />

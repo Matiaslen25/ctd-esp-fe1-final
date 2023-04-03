@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import charactersReducer from './charactersSlice'
-import characterDetailReducer from './characterDetail'
+import characterDetailReducer from './characterDetailSlice'
 import favouriteCharactersReducer from './favouriteCharactersSlice'
 
 export const store = configureStore({
