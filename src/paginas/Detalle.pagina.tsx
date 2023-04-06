@@ -34,7 +34,7 @@ const PaginaDetalle = () => {
         }
         setIsFavouriteCharacter(!isFavouriteCharacter)
     }
-    console.log("character error", characterDetail.characterError);
+    
     return characterDetail.loading ? 'Cargando información...' : characterDetail.characterError ?
     <div className="container">
         Ocurrió un error al obtener el personaje
