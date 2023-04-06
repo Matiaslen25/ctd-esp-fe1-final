@@ -27,10 +27,15 @@ const PaginaInicio = () => {
             <h3>Catálogo de Personajes</h3>
             <button className="danger" type="reset" onClick={_ => setPageUrl('')}>Limpiar filtros</button>
         </div>
-        <Filtros setPageUrl={setPageUrl} />
-        <Paginacion setPageUrl={setPageUrl} nextPageUrl={!charactersPageData.loading ? charactersPageData.charactersData.info.next || undefined : undefined} previousPageUrl={!charactersPageData.loading ? charactersPageData.charactersData.info.prev || undefined : undefined} />
-        <GrillaPersonajes charactersPageData={charactersPageData}/>
-        <Paginacion setPageUrl={setPageUrl} nextPageUrl={!charactersPageData.loading ? charactersPageData.charactersData.info.next || undefined : undefined} previousPageUrl={!charactersPageData.loading ? charactersPageData.charactersData.info.prev || undefined : undefined} />
+        {
+            charactersPageData.error ? 'Ocurrió un error al obtener los personajes' :
+            <>
+                <Filtros setPageUrl={setPageUrl} />
+                <Paginacion setPageUrl={setPageUrl} nextPageUrl={!charactersPageData.loading ? charactersPageData.charactersData.info.next || undefined : undefined} previousPageUrl={!charactersPageData.loading ? charactersPageData.charactersData.info.prev || undefined : undefined} />
+                <GrillaPersonajes charactersPageData={charactersPageData}/>
+                <Paginacion setPageUrl={setPageUrl} nextPageUrl={!charactersPageData.loading ? charactersPageData.charactersData.info.next || undefined : undefined} previousPageUrl={!charactersPageData.loading ? charactersPageData.charactersData.info.prev || undefined : undefined} />
+            </>
+        }
     </form>
 }
 

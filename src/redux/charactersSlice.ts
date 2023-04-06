@@ -1,19 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { CharactersData } from "./types"
+import { CharacterApiData, CharactersData } from "./types"
 
 export const getCharactersPage = createAsyncThunk(
     'characters/charactersData',
-    async (url: string) => {
-        try {
-            const res = await fetch(url)
-            const parseRes = await res.json()
-            if (!res.ok) {
-                throw new Error(`Characters API failed with the following status: {${parseRes.error}}`)
-            }
-            return parseRes
-        } catch (e) {
-            return { error: e }
+    async (url: string): Promise<CharacterApiData> => {
+        const res = await fetch(url)
+        const parseRes = await res.json()
+        if (!res.ok) {
+            throw new Error(`Characters API failed with the following status: {${parseRes.error}}`)
         }
+        return parseRes
     }
 )
 
@@ -39,20 +35,12 @@ const charactersSlice = createSlice({
             })
             .addCase(getCharactersPage.fulfilled, (state, action) => {
                 state.loading = false
-                if (!action.payload.error) {
-                    state.charactersData = action.payload
-                } else {
-                    state.charactersData = {
-                        results: [],
-                        info: {
-                            count: 0,
-                            pages: 0
-                        }
-                    }
-                }
+                state.charactersData = action.payload
             })
-            .addCase(getCharactersPage.rejected, (state) => {
+            .addCase(getCharactersPage.rejected, (state, action) => {
+                console.error(action.error.message)
                 state.loading = false
+                state.error = action.error.message
             })
     }
 })

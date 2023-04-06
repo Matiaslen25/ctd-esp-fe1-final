@@ -30,7 +30,7 @@ interface CharacterDataInfo {
     prev?: string
 }
 
-interface CharacterApiData {
+export interface CharacterApiData {
     results: Character[]
     info: CharacterDataInfo
 }
@@ -38,6 +38,7 @@ interface CharacterApiData {
 export interface CharactersData {
     charactersData: CharacterApiData
     loading: boolean
+    error?: string
 }
 
 export interface Episode {

@@ -9,7 +9,7 @@ interface CharacterDetail {
     episodesError?: string
 }
 
-const getCharactersEpisodes = async (episodesUrls: string[]) => {
+const getCharactersEpisodes = async (episodesUrls: string[]): Promise<Episode[]> => {
     const episodesNumbers = episodesUrls.map(episodeUrl => episodeUrl.replace('https://rickandmortyapi.com/api/episode/', '')).join(',')
     const res = await fetch(`https://rickandmortyapi.com/api/episode/${episodesNumbers}`)
     const parseRes = await res.json()
