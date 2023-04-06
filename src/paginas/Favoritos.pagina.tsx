@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import GrillaPersonajes from "../componentes/personajes/grilla-personajes.componente";
 import { removeAllFavouriteCharacters } from "../redux/favouriteCharactersSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
@@ -15,7 +14,7 @@ const PaginaFavoritos = () => {
     const favouriteCharacters = useAppSelector(state => state.favouriteCharacters)
     const dispatch = useAppDispatch()
 
-    const limpiarFavoritos = _ => {
+    const limpiarFavoritos = () => {
         if (window.confirm('¿Querés eliminar todos los personajes favoritos?')) {
             dispatch(removeAllFavouriteCharacters())
         }
@@ -24,7 +23,7 @@ const PaginaFavoritos = () => {
     return <div className="container">
         <div className="actions">
             <h3>Personajes Favoritos</h3>
-            {favouriteCharacters.length ? <button className="danger" onClick={_ => limpiarFavoritos()}>Eliminar todos</button> : ''}
+            {favouriteCharacters.length ? <button className="danger" onClick={() => limpiarFavoritos()}>Eliminar todos</button> : ''}
         </div>
         <GrillaPersonajes userFavouriteCharacters={favouriteCharacters} />
     </div>

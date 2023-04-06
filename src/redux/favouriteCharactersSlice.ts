@@ -1,28 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-
-interface Origin {
-    name: string,
-    url: string
-}
-
-interface Location {
-    name: string,
-    url: string
-}
-
-interface Character {
-    id: number
-    status: string
-    species: string
-    type: string
-    gender: string
-    origin: Origin
-    location: Location
-    image: string
-    episode: string[]
-    url: string
-    created: string
-}
+import { Character } from "./types"
 
 const initialState: Character[] = []
 
@@ -36,7 +13,7 @@ const favouriteCharactersSlice = createSlice({
         removeFavouriteCharacter: (state, action: PayloadAction<Character>) => {
             return state.filter(character => character.id !== action.payload.id)
         },
-        removeAllFavouriteCharacters: (state) => {
+        removeAllFavouriteCharacters: () => {
             return initialState
         }
     }

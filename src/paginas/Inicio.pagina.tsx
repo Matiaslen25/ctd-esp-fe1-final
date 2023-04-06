@@ -22,17 +22,15 @@ const PaginaInicio = () => {
         dispatch(getCharactersPage(pageUrl || 'https://rickandmortyapi.com/api/character?page=1'))
     }, [pageUrl])
 
-    const [seeCharacterDetail, setSeeCharacterDetail] = useState(false)
-
     return <form className="container" onSubmit={event => event.preventDefault()}>
         <div className="actions">
             <h3>Catálogo de Personajes</h3>
             <button className="danger" type="reset" onClick={_ => setPageUrl('')}>Limpiar filtros</button>
         </div>
         <Filtros setPageUrl={setPageUrl} />
-        <Paginacion page={pageUrl} setPageUrl={setPageUrl} nextPageUrl={!charactersPageData.loading && charactersPageData.charactersData.info.next} previousPageUrl={!charactersPageData.loading && charactersPageData.charactersData.info.prev} />
+        <Paginacion setPageUrl={setPageUrl} nextPageUrl={!charactersPageData.loading ? charactersPageData.charactersData.info.next || undefined : undefined} previousPageUrl={!charactersPageData.loading ? charactersPageData.charactersData.info.prev || undefined : undefined} />
         <GrillaPersonajes charactersPageData={charactersPageData}/>
-        <Paginacion pageUrl={pageUrl} setPageUrl={setPageUrl} nextPageUrl={!charactersPageData.loading && charactersPageData.charactersData.info.next} previousPageUrl={!charactersPageData.loading && charactersPageData.charactersData.info.prev} />
+        <Paginacion setPageUrl={setPageUrl} nextPageUrl={!charactersPageData.loading ? charactersPageData.charactersData.info.next || undefined : undefined} previousPageUrl={!charactersPageData.loading ? charactersPageData.charactersData.info.prev || undefined : undefined} />
     </form>
 }
 

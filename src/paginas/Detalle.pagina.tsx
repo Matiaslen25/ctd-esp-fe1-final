@@ -20,18 +20,20 @@ import { addFavouriteCharacter, removeFavouriteCharacter } from "../redux/favour
  * @returns la pagina de detalle
  */
 const PaginaDetalle = () => {
-    const { detalleId } = useParams()
+    const detalleId: string | undefined = useParams().detalleId
     const dispatch = useAppDispatch()
     
     const characterDetail = useAppSelector(state => state.characterDetail)
     useEffect(() => {
-        dispatch(getCharacterById(detalleId))
+        if (detalleId) {
+            dispatch(getCharacterById(Number.parseInt(detalleId)))
+        }
     }, [])
     
     const favouriteCharacters = useAppSelector(state => state.favouriteCharacters)
     const [isFavouriteCharacter, setIsFavouriteCharacter] = useState(!!favouriteCharacters.find(char => char.id.toString() === detalleId))
 
-    const updateFavouriteCharacter = _ => {
+    const updateFavouriteCharacter = () => {
         if (isFavouriteCharacter) {
             dispatch(removeFavouriteCharacter(characterDetail.characterDetail))
         } else {
@@ -56,7 +58,7 @@ const PaginaDetalle = () => {
                     <p>Planeta: {characterDetail.characterDetail.origin.name}</p>
                     <p>Genero: {characterDetail.characterDetail.gender}</p>
                 </div>
-                <BotonFavorito esFavorito={isFavouriteCharacter} onClick={_ => updateFavouriteCharacter()} />
+                <BotonFavorito esFavorito={isFavouriteCharacter} onClick={() => updateFavouriteCharacter()} />
             </div>
         </div>
         <h4>Lista de episodios donde apareció el personaje</h4>

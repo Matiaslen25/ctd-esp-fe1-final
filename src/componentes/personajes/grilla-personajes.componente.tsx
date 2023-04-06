@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useAppSelector } from '../../redux/hooks';
 import './grilla-personajes.css';
 import TarjetaPersonaje from './tarjeta-personaje.componente';
+import { CharactersData, Character } from '../../redux/types';
 
 
 /**
@@ -13,24 +14,29 @@ import TarjetaPersonaje from './tarjeta-personaje.componente';
  * @returns un JSX element 
  */
 
-const NoFavouriteCharacters = _ => {
+interface PropsGrillaPersonaje {
+    charactersPageData?: CharactersData
+    userFavouriteCharacters?: Character[]
+}
+
+const NoFavouriteCharacters = () => {
     return <div>Todavía no tenés personajes favoritos</div>
 }
 
-const GrillaPersonajes = ({ charactersPageData, userFavouriteCharacters }) => {
+const GrillaPersonajes = ({ charactersPageData, userFavouriteCharacters }: PropsGrillaPersonaje) => {
     const favouriteCharacters = useAppSelector(state => state.favouriteCharacters)
     
     return <div className="grilla-personajes">
        {
         userFavouriteCharacters ? !userFavouriteCharacters.length ? <NoFavouriteCharacters /> : userFavouriteCharacters.map(character => {
             const isFavouriteCharacter = favouriteCharacters.find(char => char.id === character.id)
-            return <TarjetaPersonaje key={character.id} character={character} isFavouriteCharacter={isFavouriteCharacter}/>
+            return <TarjetaPersonaje key={character.id} character={character} isFavouriteCharacter={!!isFavouriteCharacter}/>
         }) :
-        charactersPageData.loading ? 'Cargando información de personajes...' :
-        !charactersPageData.charactersData.results.length ? 'Ocurrió un error al obtener los personajes, por favor comprobá los parámetros e intentalo nuevamente' :
+        charactersPageData?.loading ? 'Cargando información de personajes...' :
+        !charactersPageData?.charactersData.results.length ? 'Ocurrió un error al obtener los personajes, por favor comprobá los parámetros e intentalo nuevamente' :
         charactersPageData.charactersData.results.map(character => {
             const isFavouriteCharacter = favouriteCharacters.find(char => char.id === character.id)
-            return <TarjetaPersonaje key={character.id} character={character} isFavouriteCharacter={isFavouriteCharacter}/>
+            return <TarjetaPersonaje key={character.id} character={character} isFavouriteCharacter={!!isFavouriteCharacter}/>
         })
        }
     </div>

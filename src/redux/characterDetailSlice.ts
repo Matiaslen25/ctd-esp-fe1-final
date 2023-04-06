@@ -1,41 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { Character, Episode } from "./types"
 
-interface Origin {
-    name: string
-    url: string
-}
-
-interface Location {
-    name: string
-    url: string
-}
-
-interface Character {
-    id: number
-    name: string
-    status: string
-    species: string
-    type: string
-    gender: string
-    origin: Origin
-    location: Location
-    image: string
-    episode: string[]
-    url: string
-    created: string
-}
-
-interface Episode {
-    id: number
-    name: string
-    air_date: string
-    episode: string
-    characters: string[]
-    url: string
-    created: string
-}
-
-interface initialType {
+interface CharacterDetail {
     characterDetail: Character
     characterError?: string
     loading: boolean
@@ -82,7 +48,7 @@ export const getCharacterById = createAsyncThunk(
     }
 )
 
-const initialState: initialType = {
+const initialState: CharacterDetail = {
     characterDetail: {
         name: '',
         id: 0,
