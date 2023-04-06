@@ -35,10 +35,13 @@ const favouriteCharactersSlice = createSlice({
         },
         removeFavouriteCharacter: (state, action: PayloadAction<Character>) => {
             return state.filter(character => character.id !== action.payload.id)
+        },
+        removeAllFavouriteCharacters: (state) => {
+            return initialState
         }
     }
 })
 
-export const { addFavouriteCharacter, removeFavouriteCharacter } = favouriteCharactersSlice.actions
+export const { addFavouriteCharacter, removeFavouriteCharacter, removeAllFavouriteCharacters } = favouriteCharactersSlice.actions
 
 export default favouriteCharactersSlice.reducer
