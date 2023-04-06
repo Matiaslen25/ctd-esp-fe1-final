@@ -1,19 +1,16 @@
 import './tarjeta-episodio.css';
 import { Episode } from '../../redux/types';
 
-/**
- * Tarjeta para cada episodio dentro de la vista de personaje.
- * 
- * Deberás agregar las propiedades necesarias para mostrar los datos de los episodios
- * 
- * 
- * @returns un JSX element 
- */
-
 interface PropsTarjetaEpisodio {
     episode: Episode
 }
 
+/**
+ * Tarjeta para cada episodio dentro de la vista de personaje.
+ * @param {Episode} episode Episodio del que se va a mostrar la información
+ * @use `<TarjetaEpisodio episode={episode} />`
+ * @returns `<div> {...} </div>`
+ */
 const TarjetaEpisodio = ({ episode }: PropsTarjetaEpisodio) => {
     return <div className="tarjeta-episodio">
             <h4>{episode.name}</h4>

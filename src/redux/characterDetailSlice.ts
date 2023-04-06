@@ -4,11 +4,18 @@ import { Character, Episode } from "./types"
 interface CharacterDetail {
     characterDetail: Character
     characterError?: string
-    loading: boolean
+    loading?: boolean
     episodesDetail: Episode[]
     episodesError?: string
 }
 
+/**
+ * Obtiene la información de unos epidodios de la API de Rick y Morty en base al número de episodio
+ * @param {string[]} episodesUrls Array de los números de episodios a obtener información
+ * @see Para información del consumo de este endpoint de la API visitar la [documentación](https://rickandmortyapi.com/documentation/#get-multiple-episodes)
+ * @returns Una promesa de array de Episode (Promise<Episode[]>)
+ * @author [Matías Len](https://github.com/Matiaslen25)
+ */
 const getCharactersEpisodes = async (episodesUrls: string[]): Promise<Episode[]> => {
     const episodesNumbers = episodesUrls.map(episodeUrl => episodeUrl.replace('https://rickandmortyapi.com/api/episode/', '')).join(',')
     const res = await fetch(`https://rickandmortyapi.com/api/episode/${episodesNumbers}`)
@@ -21,9 +28,17 @@ const getCharactersEpisodes = async (episodesUrls: string[]): Promise<Episode[]>
     }
 }
 
+/**
+ * Obtiene la información de un personaje puntual de la API de Rick y Morty en base a su Id
+ * @param {number} id Id del personaje a obtener información
+ * @see Para información del consumo de este endpoint de la API visitar la [documentación](https://rickandmortyapi.com/documentation/#get-a-single-character)
+ * @returns Una promesa de CharacterDetail (Promise<CharacterDetail>)
+ * @author [Matías Len](https://github.com/Matiaslen25)
+ */
 export const getCharacterById = createAsyncThunk(
     'characterDetail',
-    async (id: number) => {
+    async (id: number): Promise<CharacterDetail> => {
+        let errorMessage: string = ''
         const res = await fetch(`https://rickandmortyapi.com/api/character/${id}`)
         const parseRes = await res.json()
         if (!res.ok) {
@@ -33,16 +48,17 @@ export const getCharacterById = createAsyncThunk(
             try {
                 episodesDetail = await getCharactersEpisodes(parseRes.episode)
             } catch (error) {
-                let errorMessage: string = 'Unknown episodes detail error'
+                errorMessage = 'Unknown episodes detail error'
                 if (error instanceof Error) {
                     errorMessage = error.message
                 }
-                episodesDetail = errorMessage
+                episodesDetail = []
             }
             
             return {
                 characterDetail: parseRes,
-                episodesDetail
+                episodesDetail,
+                episodesError: errorMessage
             }
         }
     }
@@ -85,8 +101,8 @@ const charactersSlice = createSlice({
             .addCase(getCharacterById.fulfilled, (state, action) => {
                 state.loading = false
                 state.characterDetail = action.payload.characterDetail
-                if (typeof action.payload.episodesDetail === 'string') {
-                    state.episodesError = action.payload.episodesDetail
+                if (action.payload.episodesError) {
+                    state.episodesError = action.payload.episodesError
                     console.error(state.episodesError)
                 } else {
                     state.episodesDetail = action.payload.episodesDetail

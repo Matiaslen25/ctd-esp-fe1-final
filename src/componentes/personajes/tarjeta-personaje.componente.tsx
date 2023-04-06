@@ -6,20 +6,18 @@ import BotonFavorito from '../botones/boton-favorito.componente';
 import './tarjeta-personaje.css';
 import { Character } from '../../redux/types';
 
-/**
- * Tarjeta para cada personaje dentro de la grilla de personajes. 
- * 
- * Deberás agregar las propiedades necesarias para mostrar los datos de los personajes
- * 
- * 
- * @returns un JSX element 
- */
-
 interface PropsGrillaPersonaje {
     character: Character
     isFavouriteCharacter: boolean
 }
 
+/**
+ * Tarjeta para cada personaje dentro de la grilla de personajes.
+ * @param {Character} character Objeto de tipo Character del que se va a mostrar los detalles
+ * @param {boolean} isFavouriteCharacter Boolean que indica si el personaje es favorito o no
+ * @use `<TarjetaPersonaje character={character} isFavouriteCharacter={isFavouriteCharacter} />`
+ * @returns `<div> {...} </div>`
+ */
 
 const TarjetaPersonaje = ({character, isFavouriteCharacter}: PropsGrillaPersonaje) => {
     const dispatch = useAppDispatch()

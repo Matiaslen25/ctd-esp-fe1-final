@@ -9,15 +9,8 @@ import { addFavouriteCharacter, removeFavouriteCharacter } from "../redux/favour
 
 /**
  * Esta es la pagina de detalle. Aqui se puede mostrar la vista sobre el personaje seleccionado junto con la lista de episodios en los que aparece
- * 
- * EL TRABAJO SOBRE ESTE ARCHIVO ES OPCIONAL Y NO ES REQUISITO DE APROBACION
- * 
- * 
- * 
- * Uso: 
- * ``` <PaginaDetalle /> ```
- * 
- * @returns la pagina de detalle
+ * @use `<PaginaDetalle />`
+ * @returns `<div> {...} </div>` o 'Cargando información...'
  */
 const PaginaDetalle = () => {
     const detalleId: string | undefined = useParams().detalleId

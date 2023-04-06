@@ -5,10 +5,9 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 /**
  * Esta es la pagina de favoritos. Aquí se deberan ver todos los personajes marcados como favoritos
  * 
- * Uso: 
- * ``` <PaginaFavoritos /> ```
+ * @use `<PaginaFavoritos />`
  * 
- * @returns la pagina de favoritos
+ * @returns `<div> {...} </div>`
  */
 const PaginaFavoritos = () => {
     const favouriteCharacters = useAppSelector(state => state.favouriteCharacters)

@@ -8,10 +8,9 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks';
 /**
  * Esta es la pagina principal. Aquí se debera ver el panel de filtros junto con la grilla de personajes.
  * 
- * Uso: 
- * ``` <PaginaInicio /> ```
+ * @use `<PaginaInicio />`
  * 
- * @returns la pagina de inicio
+ * @returns `<form> {...} </form>`
  */
 const PaginaInicio = () => {
     const dispatch = useAppDispatch()

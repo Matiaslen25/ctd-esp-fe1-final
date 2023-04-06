@@ -23,6 +23,13 @@ const NoFavouriteCharacters = () => {
     return <div>Todavía no tenés personajes favoritos</div>
 }
 
+/**
+ * Componente que muestra personajes paginados o los personajes favoritos según el caso
+ * @param {CharactersData} charactersPageData En caso de estar mostrando los personajes paginados, se extrae la información de los personajes de esta prop
+ * @param {userFavouriteCharacters} userFavouriteCharacters En caso de estar mostrando los personajes favoritos, se extrae la información de los personajes de esta prop
+ * @use `<GrillaPersonajes charactersPageData={charactersPageData} />` o `<GrillaPersonajes userFavouriteCharacters={userFavouriteCharacters} />`
+ * @returns `<div> {...} </div>`
+ */
 const GrillaPersonajes = ({ charactersPageData, userFavouriteCharacters }: PropsGrillaPersonaje) => {
     const favouriteCharacters = useAppSelector(state => state.favouriteCharacters)
     

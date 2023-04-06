@@ -4,9 +4,9 @@ import './encabezado.css';
 /**
  * Encabezado que contiene los links para navegar entre las páginas
  *
- * Uso: `<Encabezado />`
+ * @use `<Encabezado />`
  *
- * @returns {JSX.Element}
+ * @returns `<header> {...} </header>`
  */
 const Encabezado = () => {
 
