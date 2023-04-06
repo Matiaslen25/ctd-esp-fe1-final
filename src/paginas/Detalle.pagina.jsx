@@ -39,8 +39,13 @@ const PaginaDetalle = () => {
         }
         setIsFavouriteCharacter(!isFavouriteCharacter)
     }
-    
-    return characterDetail.loading ? 'Cargando información...' : <div className="container">
+    console.log("character error", characterDetail.characterError);
+    return characterDetail.loading ? 'Cargando información...' : characterDetail.characterError ?
+    <div className="container">
+        Ocurrió un error al obtener el personaje
+    </div>
+    :
+    <div className="container">
         <h3>{characterDetail.characterDetail.name}</h3>
         <div className={"detalle"}>
             <div className={"detalle-header"}>
@@ -57,7 +62,7 @@ const PaginaDetalle = () => {
         <h4>Lista de episodios donde apareció el personaje</h4>
         <div className={"episodios-grilla"}>
             {
-                characterDetail.loading ? 'Cargando episodios...' : (!characterDetail.episodesDetail.length >= 1) ? 'Ocurrió un error al obtener los episodios' :
+                characterDetail.loading ? 'Cargando episodios...' : (characterDetail.episodesError) ? 'Ocurrió un error al obtener los episodios del personaje' :
                 characterDetail.episodesDetail.map(ep => <TarjetaEpisodio key={ep.id} episode={ep}/>)
             }
         </div>
