@@ -6,7 +6,7 @@ import { CharacterApiData, CharactersData } from "./types"
  * Obtiene personajes paginados de la API de Rick y Morty y la guarda en el estado de la aplicación
  * @param {string} url URL a la que hacer la API call
  * @see Para información del consumo de este endpoint de la API visitar la [documentación](https://rickandmortyapi.com/documentation/#get-all-characters)
- * @returns Una promesa de CharacterApiData (Promise<CharacterApiData>)
+ * @returns Una promesa de CharacterApiData (`Promise<CharacterApiData>`)
  * @author [Matías Len](https://github.com/Matiaslen25)
  */
 export const getCharactersPage = createAsyncThunk(
