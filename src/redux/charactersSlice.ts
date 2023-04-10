@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { CharacterApiData, CharactersData } from "./types"
 
 
@@ -29,17 +29,23 @@ const initialState: CharactersData = {
             pages: 0
         }
     },
-    loading: true
+    loading: true,
+    pageUrl: ''
 }
 
 const charactersSlice = createSlice({
     name: 'characters',
     initialState,
-    reducers: {},
+    reducers: {
+        setPageUrl: (state, action: PayloadAction<string>) => {
+            state.pageUrl = action.payload
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getCharactersPage.pending, (state) => {
                 state.loading = true
+                state.error = ''
             })
             .addCase(getCharactersPage.fulfilled, (state, action) => {
                 state.loading = false
@@ -52,5 +58,7 @@ const charactersSlice = createSlice({
             })
     }
 })
+
+export const { setPageUrl } = charactersSlice.actions
 
 export default charactersSlice.reducer

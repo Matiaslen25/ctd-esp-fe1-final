@@ -89,13 +89,14 @@ const initialState: CharacterDetail = {
     episodesDetail: []
 }
 
-const charactersSlice = createSlice({
+const charactersDetailSlice = createSlice({
     name: 'characterDetail',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(getCharacterById.pending, (state) => {
+                state.characterError = ''
                 state.loading = true
             })
             .addCase(getCharacterById.fulfilled, (state, action) => {
@@ -116,4 +117,4 @@ const charactersSlice = createSlice({
     }
 })
 
-export default charactersSlice.reducer
+export default charactersDetailSlice.reducer

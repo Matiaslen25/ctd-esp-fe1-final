@@ -1,8 +1,8 @@
 import Filtros from "../componentes/personajes/filtros.componente"
 import GrillaPersonajes from "../componentes/personajes/grilla-personajes.componente"
 import Paginacion from "../componentes/paginacion/paginacion.componente";
-import { useEffect, useState } from "react";
-import { getCharactersPage } from '../redux/charactersSlice';
+import { useEffect } from "react";
+import { getCharactersPage, setPageUrl } from '../redux/charactersSlice';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
  
 /**
@@ -14,9 +14,9 @@ import { useAppDispatch, useAppSelector } from '../redux/hooks';
  */
 const PaginaInicio = () => {
     const dispatch = useAppDispatch()
-
-    const [pageUrl, setPageUrl] = useState('')
     const charactersPageData = useAppSelector(state => state.characters)
+    const { pageUrl } = charactersPageData
+
     useEffect(() => {
         dispatch(getCharactersPage(pageUrl || 'https://rickandmortyapi.com/api/character?page=1'))
     }, [pageUrl])
@@ -24,17 +24,17 @@ const PaginaInicio = () => {
     return <form className="container" onSubmit={event => event.preventDefault()}>
         <div className="actions">
             <h3>Catálogo de Personajes</h3>
-            <button className="danger" type="reset" onClick={_ => setPageUrl('')}>Limpiar filtros</button>
+            <button className="danger" type="reset" onClick={_ => dispatch(setPageUrl(''))}>Limpiar filtros</button>
         </div>
-        {
-            charactersPageData.error ? 'Ocurrió un error al obtener los personajes' :
-            <>
-                <Filtros setPageUrl={setPageUrl} />
-                <Paginacion setPageUrl={setPageUrl} nextPageUrl={!charactersPageData.loading ? charactersPageData.charactersData.info.next || undefined : undefined} previousPageUrl={!charactersPageData.loading ? charactersPageData.charactersData.info.prev || undefined : undefined} />
-                <GrillaPersonajes charactersPageData={charactersPageData}/>
-                <Paginacion setPageUrl={setPageUrl} nextPageUrl={!charactersPageData.loading ? charactersPageData.charactersData.info.next || undefined : undefined} previousPageUrl={!charactersPageData.loading ? charactersPageData.charactersData.info.prev || undefined : undefined} />
-            </>
-        }
+            <Filtros />
+            {
+                charactersPageData.error ? 'Ocurrió un error al obtener los personajes' :
+                <>
+                    <Paginacion nextPageUrl={!charactersPageData.loading ? charactersPageData.charactersData.info.next || undefined : undefined} previousPageUrl={!charactersPageData.loading ? charactersPageData.charactersData.info.prev || undefined : undefined} />
+                    <GrillaPersonajes charactersPageData={charactersPageData}/>
+                    <Paginacion nextPageUrl={!charactersPageData.loading ? charactersPageData.charactersData.info.next || undefined : undefined} previousPageUrl={!charactersPageData.loading ? charactersPageData.charactersData.info.prev || undefined : undefined} />
+                </>
+            }
     </form>
 }
 

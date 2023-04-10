@@ -36,6 +36,7 @@ export interface CharacterApiData {
 }
 
 export interface CharactersData {
+    pageUrl: string
     charactersData: CharacterApiData
     loading: boolean
     error?: string
